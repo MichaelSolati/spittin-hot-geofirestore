@@ -5,13 +5,17 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --prod --aot",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "postinstall": "cd functions && npm install",
+    "deploy":"npm run build && firebase deploy --project default",
+    "deploy:travis":"npm run build && firebase deploy --project default --non-interactive --token $FIREBASE_TOKEN"
   },
   "private": true,
   "dependencies": {
+    "@agm/core": "^1.0.0-beta.1",
     "@angular/animations": "^4.2.4",
     "@angular/common": "^4.2.4",
     "@angular/compiler": "^4.2.4",
@@ -22,6 +26,8 @@
     "@angular/platform-browser-dynamic": "^4.2.4",
     "@angular/router": "^4.2.4",
     "core-js": "^2.4.1",
+    "firebase": "^4.5.2",
+    "geofire": "^4.1.2",
     "rxjs": "^5.4.2",
     "zone.js": "^0.8.14"
   },
