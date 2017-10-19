@@ -5,7 +5,7 @@ const fs = require('fs');
 const serviceAccount = require('./serviceAccountKey.json');
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: 'https://spittin-hot-geofire.firebaseio.com'
+  databaseURL: 'https://' + serviceAccount['project_id'] + '.firebaseio.com'
 });
 
 admin.database().ref().remove().then(() => {
