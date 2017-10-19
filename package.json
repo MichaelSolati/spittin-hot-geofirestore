@@ -9,9 +9,9 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "postinstall": "cd functions && npm install",
-    "deploy":"npm run build && firebase deploy --project default",
-    "deploy:travis":"npm run build && firebase deploy --project default --non-interactive --token $FIREBASE_TOKEN"
+    "postinstall": "npm --prefix ./data install ./data && npm --prefix ./functions install ./functions",
+    "deploy": "npm run build && firebase deploy --project default",
+    "deploy:travis": "npm run build && firebase deploy --project default --non-interactive --token $FIREBASE_TOKEN"
   },
   "private": true,
   "dependencies": {

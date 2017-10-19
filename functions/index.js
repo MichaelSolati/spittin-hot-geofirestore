@@ -7,16 +7,11 @@ admin.initializeApp(functions.config().firebase);
 // https://firebase.google.com/docs/functions/write-firebase-functions
 
 exports.restaurants = functions.database.ref('/restaurants/{restaurantId}').onCreate((event) => {
-  const restaurants = admin.database().ref('/restaurants');
   const geoFire = new GeoFire(admin.database().ref('/geofire/restaurants'));
-  restaurants.child(event.params.restaurantId).on('value', (snapshot) => {
-    const restaurant = snapshot.val();
-    let coordinates = restaurant.address.coords;
-    if (coordinates.length !== 2) { return; }
-    geoFire.set(event.params.restaurantId, coordinates.reverse()).then(() => {
-      console.log('Restaurant geohash added');
-    }).catch(error => {
-      console.log(error);
-    });
-  });
+  const restaurant = event.data.val();
+  const coordinates = restaurant.address.coord;
+  if (Array.isArray(coordinates) && coordinates.length === 2) {
+    return geoFire.set(event.params.restaurantId, coordinates.reverse());
+  }
+  return event;
 });
