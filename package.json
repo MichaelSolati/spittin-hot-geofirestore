@@ -28,6 +28,9 @@
     "core-js": "^2.4.1",
     "firebase": "^4.5.2",
     "geofire": "^4.1.2",
+    "geokit": "0.0.1-dev.20171001T164020000Z.43a3cc4",
+    "hammerjs": "^2.0.8",
+    "normalizecss": "^3.0.0",
     "rxjs": "^5.4.2",
     "zone.js": "^0.8.14"
   },
@@ -35,6 +38,7 @@
     "@angular/cli": "1.4.7",
     "@angular/compiler-cli": "^4.2.4",
     "@angular/language-service": "^4.2.4",
+    "@types/hammerjs": "^2.0.35",
     "@types/jasmine": "~2.5.53",
     "@types/jasminewd2": "~2.0.2",
     "@types/node": "~6.0.60",
