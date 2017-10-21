@@ -15,6 +15,7 @@ import { RestaurantsService } from '../services/restaurants.service';
 })
 export class HomeComponent implements OnInit, OnDestroy {
   private _geoKit: Geokit = new Geokit();
+  private _lastLocation: LatLngLiteral = { lat: 0, lng: 0 };
   private _lastOpen: string;
 
   constructor(private _ls: LocationService, private _rs: RestaurantsService) { }
@@ -47,7 +48,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   public centerChange(coordinates: LatLngLiteral): void {
-    this._ls.updateMapCenter(coordinates);
+    this._lastLocation = coordinates;
   }
 
   public clickedMarker(id: string): void {
@@ -58,6 +59,10 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   public distance(start: LatLngLiteral, destination: LatLngLiteral): string {
     return this._geoKit.distance(start, destination, 'miles').toFixed(1);
+  }
+
+  public idle(): void {
+    this._ls.updateMapCenter(this._lastLocation);
   }
 
   public isOpen(id: string): boolean {

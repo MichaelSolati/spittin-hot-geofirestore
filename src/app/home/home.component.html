@@ -1,5 +1,5 @@
 <agm-map [latitude]="(coordsMap | async)?.lat" [longitude]="(coordsMap | async)?.lng" (swipe)="swipe($event)" (centerChange)="centerChange($event)"
-  [zoom]="14">
+  (idle)="idle()" [usePanning]="true" [zoom]="17" [zoomControl]="false" [streetViewControl]="false">
   <agm-marker [latitude]="(coordsUser | async)?.lat" [longitude]="(coordsUser | async)?.lng" iconUrl="./assets/bluedot.png"></agm-marker>
   <agm-marker *ngFor="let place of nearMapCenter | async" [latitude]="place.coords.lat" [longitude]="place.coords.lng" [openInfoWindow]="false"
     (markerClick)="clickedMarker(place.id)">

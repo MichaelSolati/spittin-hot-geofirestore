@@ -23,6 +23,7 @@ export class RestaurantsService {
   private _geoFireRef: any;
   private _geoFire: any;
   private _geoKit: Geokit = new Geokit();
+  private _lastQuery: LatLngLiteral = { lat: 0, lng: 0 };
   private _nearMapCenter: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
   private _restaurant: BehaviorSubject<any> = new BehaviorSubject<any>({});
   private _restaurantsRef: any;
@@ -31,7 +32,12 @@ export class RestaurantsService {
     this._restaurantsRef = firebase.database().ref('restaurants');
     this._geoFireRef = firebase.database().ref('geofire/restaurants');
     this._geoFire = new GeoFire(this._geoFireRef);
-    this._ls.mapCenter.subscribe((coords: LatLngLiteral) => this._geoFetch(coords, 5, this._nearMapCenter));
+    this._ls.mapCenter.subscribe((coords: LatLngLiteral) => {
+      if (this._geoKit.distance(coords, this._lastQuery) > 0.5) {
+        this._lastQuery = coords;
+        this._geoFetch(coords, 5, this._nearMapCenter);
+      }
+    });
   }
 
   get restaurant(): Observable<any> {
@@ -43,7 +49,7 @@ export class RestaurantsService {
   }
 
   private _geoFetch(coords: LatLngLiteral, radius: number, store: BehaviorSubject<any[]>): void {
-    const max = 30;
+    const max = 50;
     this._geoFire.query({
       center: [coords.lat, coords.lng],
       radius: radius
