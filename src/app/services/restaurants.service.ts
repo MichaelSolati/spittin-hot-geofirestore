@@ -59,8 +59,8 @@ export class RestaurantsService {
       if (places.find((place: any) => place.id === newPlace.id)) { return; }
       places.push(newPlace);
       places.map((place: any) => place.distance = this._geoKit.distance(coords, place.coords, 'miles'));
-      places = quicksort(places).reverse();
-      if (places.length > max) { places = places.slice(places.length - max, places.length); }
+      places = quicksort(places);
+      if (places.length > max) { places = places.slice(0, max); }
       store.next(places);
     });
   }
