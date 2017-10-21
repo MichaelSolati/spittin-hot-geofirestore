@@ -1,5 +1,4 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { AgmCoreModule } from '@agm/core';
 import * as firebase from 'firebase';
@@ -21,7 +20,6 @@ import { RestaurantsService } from './services/restaurants.service';
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule,
     AppRoutingModule,
     AgmCoreModule.forRoot({
       apiKey: environment.firebase.apiKey
@@ -34,5 +32,5 @@ import { RestaurantsService } from './services/restaurants.service';
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(private _ls: LocationService, private _rs: RestaurantsService) {}
+  constructor(private _ls: LocationService, private _rs: RestaurantsService) { }
 }

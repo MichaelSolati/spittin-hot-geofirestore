@@ -49,10 +49,13 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   public centerChange(coordinates: LatLngLiteral): void {
     this._lastLocation = coordinates;
+
+    this.coordsUser.first().subscribe((coords: LatLngLiteral) => {
+      if (this._geoKit.distance(coordinates, coords) > 0.005) { this._ls.updatingStop(); }
+    });
   }
 
   public clickedMarker(id: string): void {
-    this._ls.updatingStop();
     this._rs.updateRestaurant(id);
     this._lastOpen = id;
   }
@@ -69,13 +72,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     return (this._lastOpen === id);
   }
 
-  public swipe(event: any): void {
-    this._ls.updatingStop();
-  }
-
   public toggleWatch(): void {
     this._ls.updating.first().subscribe((state: boolean) => {
       (state) ? this._ls.updatingStop() : this._ls.updatingStart();
     });
+  }
+
+  public trackByFn(index: number, item: any): string {
+    return item.id;
   }
 }

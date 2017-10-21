@@ -1,16 +1,17 @@
-<agm-map [latitude]="(coordsMap | async)?.lat" [longitude]="(coordsMap | async)?.lng" (swipe)="swipe($event)" (centerChange)="centerChange($event)"
-  (idle)="idle()" [usePanning]="true" [zoom]="17" [zoomControl]="false" [streetViewControl]="false">
+<agm-map [latitude]="(coordsMap | async)?.lat" [longitude]="(coordsMap | async)?.lng" (centerChange)="centerChange($event)"
+  (idle)="idle()" [zoom]="17" [zoomControl]="false" [streetViewControl]="false" [usePanning]="true" [fullscreenControl]="false"
+  [gestureHandling]="'greedy'">
   <agm-marker [latitude]="(coordsUser | async)?.lat" [longitude]="(coordsUser | async)?.lng" iconUrl="./assets/bluedot.png"></agm-marker>
-  <agm-marker *ngFor="let place of nearMapCenter | async" [latitude]="place.coords.lat" [longitude]="place.coords.lng" [openInfoWindow]="false"
-    (markerClick)="clickedMarker(place.id)">
-    <agm-info-window [isOpen]="isOpen(place.id)">
+  <agm-marker *ngFor="let place of nearMapCenter | async; trackBy: trackByFn" [latitude]="place.coords.lat" [longitude]="place.coords.lng"
+    [openInfoWindow]="false" (markerClick)="clickedMarker(place.id)">
+    <agm-info-window *ngIf="isOpen(place.id)" [isOpen]="isOpen(place.id)">
       <h3>{{(restaurant | async)?.name}}</h3>
       <h5>{{(restaurant | async)?.cuisine}} cuisine</h5>
       <p>{{(restaurant | async)?.address?.building}} {{(restaurant | async)?.address?.street}}, {{(restaurant | async)?.borough}}</p>
-      <p *ngIf="isOpen(place.id)">{{distance((coordsUser | async), place.coords)}} miles away</p>
+      <p>{{distance((coordsUser | async), place.coords)}} miles away</p>
     </agm-info-window>
   </agm-marker>
 </agm-map>
 <button class="fab" (click)="toggleWatch()">
-    <i class="material-icons">{{(updating | async)? 'gps_fixed' : 'gps_off'}}</i>
+  <i class="material-icons">{{(updating | async)? 'gps_fixed' : 'gps_off'}}</i>
 </button>

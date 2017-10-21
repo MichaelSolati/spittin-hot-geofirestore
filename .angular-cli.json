@@ -9,12 +9,7 @@
       "outDir": "dist",
       "assets": [
         "assets",
-        "favicon.ico",
-        {
-          "glob": "**/hammer.min.js.map",
-          "input": "../node_modules/hammerjs",
-          "output": "./"
-        }
+        "favicon.ico"
       ],
       "index": "index.html",
       "main": "main.ts",
@@ -27,9 +22,7 @@
         "../node_modules/normalizecss/normalize.css",
         "styles.css"
       ],
-      "scripts": [
-        "../node_modules/hammerjs/hammer.min.js"
-      ],
+      "scripts": [],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
