@@ -2,6 +2,10 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.4.7.
 
+[Slides](https://docs.google.com/presentation/d/1zAc2Om0yHij0SRr8c_4SlTB8zI7A-a26BzjRNAvK5Ec/edit?usp=sharing)
+
+[Application](https://spittin-hot-geofire.firebaseapp.com/)
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
