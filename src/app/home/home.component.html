@@ -2,7 +2,7 @@
   (idle)="idle()" [zoom]="17" [zoomControl]="false" [streetViewControl]="false" [usePanning]="true" [fullscreenControl]="false"
   [gestureHandling]="'greedy'">
   <agm-marker [latitude]="(coordsUser | async)?.lat" [longitude]="(coordsUser | async)?.lng" iconUrl="./assets/bluedot.png"></agm-marker>
-  <agm-marker *ngFor="let place of nearMapCenter | async; trackBy: trackByFn" [latitude]="place.coords.lat" [longitude]="place.coords.lng"
+  <agm-marker *ngFor="let place of restaurants | async; trackBy: trackByFn" [latitude]="place.coords.lat" [longitude]="place.coords.lng"
     [openInfoWindow]="false" (markerClick)="clickedMarker(place.id)">
     <agm-info-window *ngIf="isOpen(place.id)" [isOpen]="isOpen(place.id)">
       <h3>{{(restaurant | async)?.name}}</h3>

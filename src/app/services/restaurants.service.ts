@@ -20,22 +20,18 @@ function quicksort(c: any[]): any {
 
 @Injectable()
 export class RestaurantsService {
-  private _geoFireRef: any;
   private _geoFire: any;
   private _geoKit: Geokit = new Geokit();
-  private _lastQuery: LatLngLiteral = { lat: 0, lng: 0 };
-  private _nearMapCenter: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  private _previousCoords: LatLngLiteral = { lat: 0, lng: 0 };
   private _restaurant: BehaviorSubject<any> = new BehaviorSubject<any>({});
-  private _restaurantsRef: any;
+  private _restaurants: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
 
   constructor(private _ls: LocationService) {
-    this._restaurantsRef = firebase.database().ref('restaurants');
-    this._geoFireRef = firebase.database().ref('geofire/restaurants');
-    this._geoFire = new GeoFire(this._geoFireRef);
+    this._geoFire = new GeoFire(firebase.database().ref('geofire/restaurants'));
     this._ls.mapCenter.subscribe((coords: LatLngLiteral) => {
-      if (this._geoKit.distance(coords, this._lastQuery) > 0.5) {
-        this._lastQuery = coords;
-        this._geoFetch(coords, 5, this._nearMapCenter);
+      if (this._geoKit.distance(coords, this._previousCoords) > 0.5) {
+        this._previousCoords = coords;
+        this._geoFetch(coords);
       }
     });
   }
@@ -44,28 +40,28 @@ export class RestaurantsService {
     return this._restaurant.asObservable();
   }
 
-  get nearMapCenter(): Observable<any[]> {
-    return this._nearMapCenter.asObservable();
+  get restaurants(): Observable<any[]> {
+    return this._restaurants.asObservable();
   }
 
-  private _geoFetch(coords: LatLngLiteral, radius: number, store: BehaviorSubject<any[]>): void {
-    const max = 50;
+  private _geoFetch(coords: LatLngLiteral): void {
+    const max = 100;
     this._geoFire.query({
       center: [coords.lat, coords.lng],
-      radius: radius
+      radius: 0.5
     }).on('key_entered', (key: string, result: any[]) => {
-      let places: any[] = [...store.value];
+      let places: any[] = [...this._restaurants.value];
       const newPlace: any = { 'id': key, 'coords': { 'lat': result[0], 'lng': result[1] } };
       if (places.find((place: any) => place.id === newPlace.id)) { return; }
       places.push(newPlace);
       places.map((place: any) => place.distance = this._geoKit.distance(coords, place.coords, 'miles'));
       places = quicksort(places);
       if (places.length > max) { places = places.slice(0, max); }
-      store.next(places);
+      this._restaurants.next(places);
     });
   }
 
   public updateRestaurant(id: string): void {
-    this._restaurantsRef.child(id).on('value', (snapshot: any) => this._restaurant.next(snapshot.val()));
+    firebase.database().ref('restaurants').child(id).on('value', (snapshot: any) => this._restaurant.next(snapshot.val()));
   }
 }

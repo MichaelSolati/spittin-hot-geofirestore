@@ -35,12 +35,12 @@ export class HomeComponent implements OnInit, OnDestroy {
     return this._ls.coordinates;
   }
 
-  get nearMapCenter(): Observable<any[]> {
-    return this._rs.nearMapCenter;
-  }
-
   get restaurant(): Observable<any> {
     return this._rs.restaurant;
+  }
+
+  get restaurants(): Observable<any[]> {
+    return this._rs.restaurants;
   }
 
   get updating(): Observable<boolean> {
