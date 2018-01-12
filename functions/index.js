@@ -9,9 +9,8 @@ admin.initializeApp(functions.config().firebase);
 exports.restaurants = functions.database.ref('/restaurants/{restaurantId}').onCreate((event) => {
   const geoFire = new GeoFire(admin.database().ref('/geofire/restaurants'));
   const restaurant = event.data.val();
-  const coordinates = restaurant.address.coord;
-  if (Array.isArray(coordinates) && coordinates.length === 2) {
-    return geoFire.set(event.params.restaurantId, coordinates.reverse());
+  if (Array.isArray(restaurant.coordinates) && restaurant.coordinates.length === 2) {
+    return geoFire.set(event.params.restaurantId, restaurant.coordinates);
   }
   return event;
 });

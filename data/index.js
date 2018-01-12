@@ -8,18 +8,32 @@ admin.initializeApp({
   databaseURL: 'https://' + serviceAccount['project_id'] + '.firebaseio.com'
 });
 
+const restaurantsRef = admin.database().ref('/restaurants');
+
+// https://data.cityofchicago.org/Health-Human-Services/Restaurant/5udb-dr6f/data
+const chicago = JSON.parse(fs.readFileSync('cities/chicago.json'));
+// https://docs.mongodb.com/getting-started/shell/import-data/
+const newYork = JSON.parse(fs.readFileSync('cities/new-york.json'));
+
 admin.database().ref().remove().then(() => {
-  const restaurants = admin.database().ref('/restaurants');
-  const contents = fs.readFileSync('restaurants.json');
-  const jsonContent = JSON.parse(contents);
+  const restaurants = [
+    ...process(newYork),
+    ...process(chicago)
+  ];
 
-  const processedRestaurants = [];
-
-  for (const restaurant of jsonContent) {
-    processedRestaurants.push(restaurants.push(restaurant));
-  }
-
-  Promise.all(processedRestaurants).then(() => {
+  Promise.all(restaurants).then(() => {
+    console.log('Finished Inserting ' + restaurants.length + ' Restaurants');
+    process.exit(0);
+  }).catch((err) => {
+    console.log('Finished Inserting ' + restaurants.length + ' Restaurants');
     process.exit(0);
   });
 });
+
+const process = (restaurants) => {
+  const processed = [];
+  restaurants.forEach((restaurant) => {
+    processed.push(restaurantsRef.push(restaurant).catch(e => e));
+  });
+  return processed;
+}

@@ -6,8 +6,8 @@
     [openInfoWindow]="false" (markerClick)="clickedMarker(place.id)">
     <agm-info-window *ngIf="isOpen(place.id)" [isOpen]="isOpen(place.id)">
       <h3>{{(restaurant | async)?.name}}</h3>
-      <h5>{{(restaurant | async)?.cuisine}} cuisine</h5>
-      <p>{{(restaurant | async)?.address?.building}} {{(restaurant | async)?.address?.street}}, {{(restaurant | async)?.borough}}</p>
+      <h5>{{(restaurant | async)?.type}}</h5>
+      <p>{{(restaurant | async)?.address}}</p>
       <p>{{distance((coordsUser | async), place.coords)}} miles away</p>
     </agm-info-window>
   </agm-marker>
