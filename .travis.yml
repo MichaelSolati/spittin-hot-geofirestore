@@ -1,8 +1,10 @@
-sudo: required
 language: node_js
 node_js:
   - 8
+sudo: false
 install:
   - npm install
 script:
-  - npm run deploy:travis
+  - if [ ${TRAVIS_BRANCH} == "master" ]; then
+    npm run deploy:travis;
+    fi

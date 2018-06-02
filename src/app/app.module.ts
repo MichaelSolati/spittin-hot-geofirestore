@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AgmCoreModule } from '@agm/core';
-import * as firebase from 'firebase';
+import * as firebase from 'firebase/app';
 
 import { environment } from '../environments/environment';
 firebase.initializeApp(environment.firebase);

@@ -1,7 +1,5 @@
 # SpittinHotGeofire
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.4.7.
-
 [Slides](https://docs.google.com/presentation/d/1zAc2Om0yHij0SRr8c_4SlTB8zI7A-a26BzjRNAvK5Ec/edit?usp=sharing)
 
 [Application](https://spittin-hot-geofire.firebaseapp.com/)
@@ -16,7 +14,7 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
 ## Running unit tests
 

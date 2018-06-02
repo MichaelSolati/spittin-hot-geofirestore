@@ -14,7 +14,6 @@ import { RestaurantsService } from '../services/restaurants.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  private _geoKit: Geokit = new Geokit();
   private _lastLocation: LatLngLiteral = { lat: 0, lng: 0 };
   private _lastOpen: string;
 
@@ -51,7 +50,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this._lastLocation = coordinates;
 
     this.coordsUser.first().subscribe((coords: LatLngLiteral) => {
-      if (this._geoKit.distance(coordinates, coords) > 0.005) { this._ls.updatingStop(); }
+      if (Geokit.distance(coordinates, coords) > 0.005) { this._ls.updatingStop(); }
     });
   }
 
@@ -61,7 +60,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   public distance(start: LatLngLiteral, destination: LatLngLiteral): string {
-    return this._geoKit.distance(start, destination, 'miles').toFixed(1);
+    return Geokit.distance(start, destination, 'miles').toFixed(1);
   }
 
   public idle(): void {

@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import * as firebase from 'firebase';
-import * as GeoFire from 'geofire';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
+import { GeoFire } from '../geofire/index.esm';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { LatLngLiteral } from '@agm/core';
 import { Geokit } from 'geokit';
-import 'rxjs/add/operator/map';
+import * as firebase from 'firebase/app';
+import 'firebase/database';
 
 import { LocationService } from './location.service';
 
@@ -20,8 +19,7 @@ function quicksort(c: any[]): any {
 
 @Injectable()
 export class RestaurantsService {
-  private _geoFire: any;
-  private _geoKit: Geokit = new Geokit();
+  private _geoFire: GeoFire;
   private _previousCoords: LatLngLiteral = { lat: 0, lng: 0 };
   private _restaurant: BehaviorSubject<any> = new BehaviorSubject<any>({});
   private _restaurants: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
@@ -29,7 +27,7 @@ export class RestaurantsService {
   constructor(private _ls: LocationService) {
     this._geoFire = new GeoFire(firebase.database().ref('geofire/restaurants'));
     this._ls.mapCenter.subscribe((coords: LatLngLiteral) => {
-      if (this._geoKit.distance(coords, this._previousCoords) > 0.5) {
+      if (Geokit.distance(coords, this._previousCoords) > 0.5) {
         this._previousCoords = coords;
         this._geoFetch(coords);
       }
@@ -54,7 +52,7 @@ export class RestaurantsService {
       const newPlace: any = { 'id': key, 'coords': { 'lat': result[0], 'lng': result[1] } };
       if (places.find((place: any) => place.id === newPlace.id)) { return; }
       places.push(newPlace);
-      places.map((place: any) => place.distance = this._geoKit.distance(coords, place.coords, 'miles'));
+      places.map((place: any) => place.distance = Geokit.distance(coords, place.coords, 'miles'));
       places = quicksort(places);
       if (places.length > max) { places = places.slice(0, max); }
       this._restaurants.next(places);
