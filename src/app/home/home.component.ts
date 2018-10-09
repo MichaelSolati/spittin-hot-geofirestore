@@ -1,9 +1,9 @@
 
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import * as firebase from 'firebase/app';
+import { Geokit, LatLngLiteral } from 'geokit';
 import { Observable } from 'rxjs/Observable';
-import { LatLngLiteral } from '@agm/core';
-import { Geokit } from 'geokit';
-import 'rxjs/add/operator/first';
+import { first } from 'rxjs/operators';
 
 import { LocationService } from '../services/location.service';
 import { RestaurantsService } from '../services/restaurants.service';
@@ -14,7 +14,7 @@ import { RestaurantsService } from '../services/restaurants.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  private _lastLocation: LatLngLiteral = { lat: 0, lng: 0 };
+  private _lastLocation: firebase.firestore.GeoPoint = new firebase.firestore.GeoPoint(0, 0);
   private _lastOpen: string;
 
   constructor(private _ls: LocationService, private _rs: RestaurantsService) { }
@@ -26,16 +26,12 @@ export class HomeComponent implements OnInit, OnDestroy {
     this._ls.updatingStart();
   }
 
-  get coordsMap(): Observable<LatLngLiteral> {
+  get coordsMap(): Observable<firebase.firestore.GeoPoint> {
     return this._ls.mapCenter;
   }
 
-  get coordsUser(): Observable<LatLngLiteral> {
+  get coordsUser(): Observable<firebase.firestore.GeoPoint> {
     return this._ls.coordinates;
-  }
-
-  get restaurant(): Observable<any> {
-    return this._rs.restaurant;
   }
 
   get restaurants(): Observable<any[]> {
@@ -47,20 +43,19 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   public centerChange(coordinates: LatLngLiteral): void {
-    this._lastLocation = coordinates;
+    this._lastLocation = new firebase.firestore.GeoPoint(coordinates.lat, coordinates.lng);
 
-    this.coordsUser.first().subscribe((coords: LatLngLiteral) => {
-      if (Geokit.distance(coordinates, coords) > 0.005) { this._ls.updatingStop(); }
+    this.coordsUser.pipe(first()).subscribe((coords: firebase.firestore.GeoPoint) => {
+      if (Geokit.distance(this._geopoint2Literal(this._lastLocation), this._geopoint2Literal(coords)) > 0.005) { this._ls.updatingStop(); }
     });
   }
 
   public clickedMarker(id: string): void {
-    this._rs.updateRestaurant(id);
     this._lastOpen = id;
   }
 
-  public distance(start: LatLngLiteral, destination: LatLngLiteral): string {
-    return Geokit.distance(start, destination, 'miles').toFixed(1);
+  public distance(start: firebase.firestore.GeoPoint, destination: firebase.firestore.GeoPoint): string {
+    return Geokit.distance(this._geopoint2Literal(start), this._geopoint2Literal(destination), 'miles').toFixed(1);
   }
 
   public idle(): void {
@@ -72,12 +67,19 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   public toggleWatch(): void {
-    this._ls.updating.first().subscribe((state: boolean) => {
+    this._ls.updating.pipe(first()).subscribe((state: boolean) => {
       (state) ? this._ls.updatingStop() : this._ls.updatingStart();
     });
   }
 
   public trackByFn(index: number, item: any): string {
-    return item.id;
+    return item.$key;
+  }
+
+  private _geopoint2Literal(coordinates: firebase.firestore.GeoPoint): LatLngLiteral {
+    return {
+      lat: coordinates.latitude,
+      lng: coordinates.longitude
+    };
   }
 }

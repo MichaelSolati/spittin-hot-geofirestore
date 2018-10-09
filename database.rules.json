@@ -1,11 +1,6 @@
 {
   "rules": {
-    ".read": "true",
-    ".write": "false",
-    "geofire": {
-      "restaurants": {
-        ".indexOn": "g"
-      }
-    }
+    ".read": "false",
+    ".write": "false"
   }
 }

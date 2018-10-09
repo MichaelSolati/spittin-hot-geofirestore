@@ -2,9 +2,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AgmCoreModule } from '@agm/core';
 import * as firebase from 'firebase/app';
+import 'firebase/firestore';
 
 import { environment } from '../environments/environment';
 firebase.initializeApp(environment.firebase);
+firebase.firestore().settings({ timestampsInSnapshots: true });
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';

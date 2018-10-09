@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
-import { LatLngLiteral } from '@agm/core';
+import * as firebase from 'firebase/app';
 
 @Injectable()
 export class LocationService {
-  private _coordinates: BehaviorSubject<LatLngLiteral> = new BehaviorSubject<LatLngLiteral>({ lat: 0, lng: 0 });
+  private _coordinates: BehaviorSubject<firebase.firestore.GeoPoint> =
+    new BehaviorSubject<firebase.firestore.GeoPoint>(new firebase.firestore.GeoPoint(0, 0));
   private _locationWatch: number;
-  private _mapCenter: BehaviorSubject<LatLngLiteral> = new BehaviorSubject<LatLngLiteral>({ lat: 0, lng: 0 });
+  private _mapCenter: BehaviorSubject<firebase.firestore.GeoPoint> =
+    new BehaviorSubject<firebase.firestore.GeoPoint>(new firebase.firestore.GeoPoint(0, 0));
   private _watching: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private _updating: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
@@ -15,11 +17,11 @@ export class LocationService {
     this._getLocation();
   }
 
-  get coordinates(): Observable<LatLngLiteral> {
+  get coordinates(): Observable<firebase.firestore.GeoPoint> {
     return this._coordinates.asObservable();
   }
 
-  get mapCenter(): Observable<LatLngLiteral> {
+  get mapCenter(): Observable<firebase.firestore.GeoPoint> {
     return this._mapCenter.asObservable();
   }
 
@@ -34,7 +36,7 @@ export class LocationService {
   private _getLocation(): void {
     if ((typeof window !== 'undefined') && 'geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((success: any) => {
-        this._coordinates.next({ lat: success.coords.latitude, lng: success.coords.longitude });
+        this._coordinates.next(new firebase.firestore.GeoPoint(success.coords.latitude, success.coords.longitude));
         this.watchStart();
       }, (error: any) => {
         console.log(error);
@@ -42,7 +44,7 @@ export class LocationService {
     }
   }
 
-  public updateMapCenter(coordinates: LatLngLiteral): void {
+  public updateMapCenter(coordinates: firebase.firestore.GeoPoint): void {
     this._mapCenter.next(coordinates);
   }
 
@@ -58,7 +60,7 @@ export class LocationService {
   public watchStart(): void {
     if ((typeof window !== 'undefined') && ('geolocation' in navigator) && !this._locationWatch) {
       this._locationWatch = navigator.geolocation.watchPosition((success: any) => {
-        this._coordinates.next({ lat: success.coords.latitude, lng: success.coords.longitude });
+        this._coordinates.next(new firebase.firestore.GeoPoint(success.coords.latitude, success.coords.longitude));
         if (this._updating.value) { this._mapCenter.next(this._coordinates.value); }
       }, (error: any) => {
         console.warn(error);

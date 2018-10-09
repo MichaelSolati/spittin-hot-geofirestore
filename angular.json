@@ -123,5 +123,10 @@
       }
     }
   },
-  "defaultProject": "spittin-hot-geofire"
+  "defaultProject": "spittin-hot-geofire",
+  "cli": {
+    "warnings": {
+      "typescriptMismatch": false
+    }
+  }
 }
