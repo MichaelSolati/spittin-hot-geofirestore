@@ -1,8 +1,8 @@
-# SpittinHotGeofire
+# SpittinHotGeoFirestore
 
 [Slides](https://docs.google.com/presentation/d/1zAc2Om0yHij0SRr8c_4SlTB8zI7A-a26BzjRNAvK5Ec/edit?usp=sharing)
 
-[Application](https://spittin-hot-geofire.firebaseapp.com/)
+[Application](http://spittinhot.geofirestore.com)
 
 ## Development server
 

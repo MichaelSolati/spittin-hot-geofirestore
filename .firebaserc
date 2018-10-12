@@ -1,5 +1,14 @@
 {
   "projects": {
-    "default": "spittin-hot-geofire"
+    "default": "geofirestore"
+  },
+  "targets": {
+    "geofirestore": {
+      "hosting": {
+        "spittinhotgeofirestore": [
+          "spittinhotgeofirestore"
+        ]
+      }
+    }
   }
 }

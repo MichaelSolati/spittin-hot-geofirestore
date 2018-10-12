@@ -6,11 +6,11 @@
 export const environment = {
   production: false,
   firebase: {
-    apiKey: 'AIzaSyCn91qaSJlj1naKD4ZmI3ZRM9ORlIh0wcU',
-    authDomain: 'spittin-hot-geofire.firebaseapp.com',
-    databaseURL: 'https://spittin-hot-geofire.firebaseio.com',
-    projectId: 'spittin-hot-geofire',
-    storageBucket: 'spittin-hot-geofire.appspot.com',
-    messagingSenderId: '563199701540'
+    apiKey: 'AIzaSyDFnedGL4qr_jenIpWYpbvot8s7Vuay_88',
+    authDomain: 'geofirestore.firebaseapp.com',
+    databaseURL: 'https://geofirestore.firebaseio.com',
+    projectId: 'geofirestore',
+    storageBucket: 'geofirestore.appspot.com',
+    messagingSenderId: '830598661992'
   }
 };

@@ -1,18 +1,12 @@
 {
-  "database": {
-    "rules": "database.rules.json"
-  },
   "hosting": {
-    "public": "dist/spittin-hot-geofire",
+    "target": "spittinhotgeofirestore",
+    "public": "dist/spittin-hot-geofirestore",
     "rewrites": [
       {
         "source": "**",
         "destination": "/index.html"
       }
     ]
-  },
-  "firestore": {
-    "rules": "firestore.rules",
-    "indexes": "firestore.indexes.json"
   }
 }
