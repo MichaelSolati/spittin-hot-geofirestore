@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "predeploy": "npm run build",
     "target": "spittinhotgeofirestore",
     "public": "dist/spittin-hot-geofirestore",
     "rewrites": [

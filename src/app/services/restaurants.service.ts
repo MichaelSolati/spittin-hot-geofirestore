@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import * as firebase from 'firebase/app';
-import { GeoFirestore, GeoCollectionReference, GeoQuery } from 'geofirestore';
+import { GeoFirestore, GeoCollectionReference } from 'geofirestore';
 import { Geokit, LatLngLiteral } from 'geokit';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 import { LocationService } from './location.service';
 

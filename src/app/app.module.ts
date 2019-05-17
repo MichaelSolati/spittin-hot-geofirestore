@@ -6,7 +6,6 @@ import 'firebase/firestore';
 
 import { environment } from '../environments/environment';
 firebase.initializeApp(environment.firebase);
-firebase.firestore().settings({ timestampsInSnapshots: true });
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';

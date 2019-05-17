@@ -2,7 +2,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as firebase from 'firebase/app';
 import { Geokit, LatLngLiteral } from 'geokit';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 
 import { LocationService } from '../services/location.service';
