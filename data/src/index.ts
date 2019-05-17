@@ -8,20 +8,20 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: 'https://' + serviceAccount['project_id'] + '.firebaseio.com'
 });
-admin.firestore().settings({ timestampsInSnapshots: true });
 const collection: FirebaseFirestore.CollectionReference = admin.firestore().collection('restaurants');
 
+// https://data.austintexas.gov/Health-and-Community-Services/Food-Establishment-Inspection-Scores/ecmv-9xxi
+const austin = JSON.parse(readFileSync(join(__dirname, '../', 'cities/austin.json')));
 // https://data.cityofchicago.org/Health-Human-Services/Restaurant/5udb-dr6f/data
-// @ts-ignore
 const chicago = JSON.parse(readFileSync(join(__dirname, '../', 'cities/chicago.json')));
 // https://docs.mongodb.com/getting-started/shell/import-data/
-// @ts-ignore
 const newYork = JSON.parse(readFileSync(join(__dirname, '../', 'cities/new-york.json')));
 
 const cacheFiles: string[] = [];
 const restaurants: any[] = [
-  ...filter(newYork),
-  ...filter(chicago)
+  ...filter(austin),
+  ...filter(chicago),
+  ...filter(newYork)
 ];
 let length = restaurants.length;
 const folder = join(__dirname, '../', 'temp');
