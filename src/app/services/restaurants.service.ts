@@ -6,7 +6,9 @@ import { BehaviorSubject, Observable } from 'rxjs';
 
 import { LocationService } from './location.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class RestaurantsService {
   private _collection: GeoCollectionReference = new GeoFirestore(firebase.firestore()).collection('restaurants');
   private _previousCoords: firebase.firestore.GeoPoint = new firebase.firestore.GeoPoint(0, 0);

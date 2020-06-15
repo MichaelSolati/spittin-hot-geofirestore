@@ -7,31 +7,21 @@ import 'firebase/firestore';
 import { environment } from '../environments/environment';
 firebase.initializeApp(environment.firebase);
 
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
-
 import { LocationService } from './services/location.service';
 import { RestaurantsService } from './services/restaurants.service';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HomeComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     AgmCoreModule.forRoot({
-      apiKey: environment.firebase.apiKey
-    })
+      apiKey: environment.firebase.apiKey,
+    }),
   ],
-  providers: [
-    LocationService,
-    RestaurantsService
-  ],
-  bootstrap: [AppComponent]
+  providers: [LocationService, RestaurantsService],
+  bootstrap: [AppComponent],
 })
 export class AppModule {
-  constructor(private _ls: LocationService, private _rs: RestaurantsService) { }
+  constructor(private _ls: LocationService, private _rs: RestaurantsService) {}
 }

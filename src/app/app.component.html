@@ -1,1 +1,18 @@
-<router-outlet></router-outlet>
+<agm-map [latitude]="(coordsMap | async)?.latitude" [longitude]="(coordsMap | async)?.longitude"
+  (centerChange)="centerChange($event)" (idle)="idle()" [zoom]="17" [zoomControl]="false" [streetViewControl]="false"
+  [usePanning]="true" [fullscreenControl]="false" [gestureHandling]="'greedy'">
+  <agm-marker [latitude]="(coordsUser | async)?.latitude" [longitude]="(coordsUser | async)?.longitude"
+    iconUrl="./assets/bluedot.png"></agm-marker>
+  <agm-marker *ngFor="let place of restaurants | async; trackBy: trackByFn" [latitude]="place.coordinates.latitude"
+    [longitude]="place.coordinates.longitude" [openInfoWindow]="false" (markerClick)="clickedMarker(place.$key)">
+    <agm-info-window *ngIf="isOpen(place.$key)" [isOpen]="isOpen(place.$key)">
+      <h3>{{place.name}}</h3>
+      <h5>{{place.type}}</h5>
+      <p>{{place.address}}</p>
+      <p>{{distance((coordsUser | async), place.coordinates)}} miles away</p>
+    </agm-info-window>
+  </agm-marker>
+</agm-map>
+<button class="fab" (click)="toggleWatch()">
+  <i class="material-icons">{{(updating | async)? 'gps_fixed' : 'gps_off'}}</i>
+</button>

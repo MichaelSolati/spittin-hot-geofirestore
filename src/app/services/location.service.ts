@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import * as firebase from 'firebase/app';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class LocationService {
   private _coordinates: BehaviorSubject<firebase.firestore.GeoPoint> =
     new BehaviorSubject<firebase.firestore.GeoPoint>(new firebase.firestore.GeoPoint(0, 0));

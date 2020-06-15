@@ -1,5 +1,5 @@
-import * as admin from 'firebase-admin';
-import { Geokit } from 'geokit';
+import * as admin from "firebase-admin";
+import { Geokit } from "geokit";
 
 export async function asyncForEach(array, callback) {
   for (let index = 0; index < array.length; index++) {
@@ -18,11 +18,19 @@ export function filter(unprocessed: any[]): any[] {
 
 export function parse(unprocessed: any[]): any[] {
   return unprocessed.map((restaurant: any) => {
-    restaurant.coordinates = new admin.firestore.GeoPoint(restaurant.coordinates[0], restaurant.coordinates[1]);
+    restaurant.coordinates = new admin.firestore.GeoPoint(
+      restaurant.coordinates[0],
+      restaurant.coordinates[1]
+    );
     return {
-      g: Geokit.hash({ lat: restaurant.coordinates.latitude, lng: restaurant.coordinates.longitude }),
-      l: restaurant.coordinates,
-      d: restaurant
+      g: {
+        geohash: Geokit.hash({
+          lat: restaurant.coordinates.latitude,
+          lng: restaurant.coordinates.longitude,
+        }),
+        geopoint: restaurant.coordinates,
+      },
+      ...restaurant,
     };
   });
 }

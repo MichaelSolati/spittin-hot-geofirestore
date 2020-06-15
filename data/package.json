@@ -7,14 +7,14 @@
     "start:js": "node dist/index.js",
     "prepare": "npm run build"
   },
-  "dependencies": {
-    "firebase-admin": "^8.2.0",
-    "fs-extra": "^8.1.0",
-    "geokit": "^0.1.4"
-  },
   "private": true,
+  "dependencies": {
+    "firebase-admin": "^8.12.1",
+    "fs-extra": "^9.0.1",
+    "geokit": "^0.1.5"
+  },
   "devDependencies": {
-    "ts-node": "^8.3.0",
-    "typescript": "^3.5.2"
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.5"
   }
 }
