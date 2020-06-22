@@ -25,7 +25,7 @@
     "@angular/platform-browser-dynamic": "~9.1.11",
     "@angular/router": "~9.1.11",
     "firebase": "^7.15.1",
-    "geofirestore": "github:MichaelSolati/geofirestore-js",
+    "geofirestore": "^4.1.0",
     "geokit": "^0.1.5",
     "normalize.css": "^8.0.1",
     "rxjs": "~6.5.4",
