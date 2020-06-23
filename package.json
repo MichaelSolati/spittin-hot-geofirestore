@@ -10,8 +10,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "postinstall": "npm --prefix ./data install ./data",
-    "deploy": "firebase deploy --project default",
-    "deploy:travis": "firebase deploy --project default --non-interactive --token $FIREBASE_TOKEN"
+    "deploy": "firebase deploy --project default"
   },
   "private": false,
   "dependencies": {

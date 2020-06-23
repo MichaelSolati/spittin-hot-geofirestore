@@ -120,6 +120,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "spittin-hot-geofirestore"
+    }
+  },
+  "defaultProject": "spittin-hot-geofirestore",
+  "cli": {
+    "analytics": "4e40de15-a627-4ea4-b54d-960c30de4bb6"
+  }
 }
