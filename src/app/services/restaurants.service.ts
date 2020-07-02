@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as firebase from 'firebase/app';
 import { GeoFirestore, GeoCollectionReference } from 'geofirestore';
-import { Geokit, LatLngLiteral } from 'geokit';
+import { distance as calculateDistance, LatLngLiteral } from 'geokit';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import { LocationService } from './location.service';
@@ -16,7 +16,7 @@ export class RestaurantsService {
 
   constructor(private _ls: LocationService) {
     this._ls.mapCenter.subscribe((center: firebase.firestore.GeoPoint) => {
-      if (Geokit.distance(this._geopoint2Literal(center), this._geopoint2Literal(this._previousCoords)) > 0.5) {
+      if (calculateDistance(this._geopoint2Literal(center), this._geopoint2Literal(this._previousCoords)) > 0.5) {
         this._previousCoords = center;
         console.log('Updating Center Of Query');
         this._query(center);

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as firebase from 'firebase/app';
-import { Geokit, LatLngLiteral } from 'geokit';
+import { distance as calculateDistance, LatLngLiteral } from 'geokit';
 import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 
@@ -53,7 +53,7 @@ export class AppComponent implements OnInit, OnDestroy {
       .pipe(first())
       .subscribe((coords: firebase.firestore.GeoPoint) => {
         if (
-          Geokit.distance(
+          calculateDistance(
             this._geopoint2Literal(this._lastLocation),
             this._geopoint2Literal(coords)
           ) > 0.005
@@ -71,7 +71,7 @@ export class AppComponent implements OnInit, OnDestroy {
     start: firebase.firestore.GeoPoint,
     destination: firebase.firestore.GeoPoint
   ): string {
-    return Geokit.distance(
+    return calculateDistance(
       this._geopoint2Literal(start),
       this._geopoint2Literal(destination),
       'miles'

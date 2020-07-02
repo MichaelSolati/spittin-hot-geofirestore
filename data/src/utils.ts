@@ -1,5 +1,5 @@
-import * as admin from "firebase-admin";
-import { Geokit } from "geokit";
+import * as admin from 'firebase-admin';
+import { hash } from 'geokit';
 
 export async function asyncForEach(array, callback) {
   for (let index = 0; index < array.length; index++) {
@@ -24,7 +24,7 @@ export function parse(unprocessed: any[]): any[] {
     );
     return {
       g: {
-        geohash: Geokit.hash({
+        geohash: hash({
           lat: restaurant.coordinates.latitude,
           lng: restaurant.coordinates.longitude,
         }),
